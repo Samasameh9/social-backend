@@ -16,3 +16,7 @@ export enum ProviderEnum{
     PUBLIC,
     PRIVATE
  }
+  export enum AccountStatusEnum{
+    ARCHIVE,
+    ACTIVE
+ }

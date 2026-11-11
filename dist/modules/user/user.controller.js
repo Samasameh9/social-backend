@@ -40,6 +40,8 @@ const user_service_js_1 = require("./user.service.js");
 const issuer_js_1 = require("../../common/utilis/issuer.js");
 const user_enum_js_1 = require("../../common/enum/user.enum.js");
 const validators = __importStar(require("./user.validation"));
+const local_multer_js_1 = require("../../common/utilis/multer/local.multer.js");
+const multer_enum_js_1 = require("../../common/enum/multer.enum.js");
 const router = (0, express_1.Router)({ caseSensitive: true, strict: true });
 router.get("/", (0, middleware_1.authentication)(), (0, middleware_1.responseFormatter)(async (req, res, next) => {
     const data = await user_service_js_1.userService.profile(req.user);
@@ -64,6 +66,16 @@ router.get("/search", (0, middleware_1.authentication)(), (0, middleware_1.valid
 router.get("/suggestions", (0, middleware_1.authentication)(), (0, middleware_1.validation)(validators.suggestionsUsersSchema), (0, middleware_1.responseFormatter)(async (req, res, next) => {
     const data = await user_service_js_1.userService.suggestions(req.user.id, req.validate.query.page, req.validate.query.limit);
     return { res, data };
+}));
+router.patch("/profile-image", (0, middleware_1.authentication)(), (0, middleware_1.uploadMiddleware)({
+    multerMiddleware: (0, local_multer_js_1.localFileUpload)({
+        storageApproach: multer_enum_js_1.StorageApproachEnum.MEMORY,
+    }).single("attachment"),
+    validation: local_multer_js_1.FileValidation.image,
+    customPath: "User",
+}), (0, middleware_1.responseFormatter)(async (req, res, next) => {
+    const key = await user_service_js_1.userService.profileImage(req.file, req.user);
+    return { data: { key } };
 }));
 router.patch("/privacy", (0, middleware_1.authentication)(), (0, middleware_1.responseFormatter)(async (req, res, next) => {
     const data = await user_service_js_1.userService.updatePrivacy(req.user.id, req.body.privacy);

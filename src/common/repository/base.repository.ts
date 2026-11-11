@@ -323,4 +323,8 @@ export abstract class DatabaseRepository<TRowDocument> {
   }): Promise<HydratedDocument<TRowDocument> | null> {
     return await this.model.findByIdAndDelete(id);
   }
+// insert
+async insertMany({data}:{data:AnyKeys<TRowDocument>[]}){
+  return await this.model.insertMany(data)
+}
 }

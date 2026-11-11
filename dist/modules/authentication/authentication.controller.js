@@ -52,7 +52,7 @@ router.patch("/confirm-email", (0, validation_middleware_1.validation)(validator
 }));
 router.patch("/enable-two-step-verification", (0, validation_middleware_1.validation)(validators.resendConfirmEmailValidation), (0, response_middleware_js_1.responseFormatter)(async (req, res, next) => {
     const data = await authentication_service_1.default.enableTwoStepVerification(req.validate.body);
-    return ({ res, status: 200, data });
+    return { res, status: 200, data };
 }));
 router.patch("/resend-confirm-email", (0, validation_middleware_1.validation)(validators.resendConfirmEmailValidation), (0, response_middleware_js_1.responseFormatter)(async (req, res, next) => {
     return await authentication_service_1.default.resendConfirmEmail(req.validate.body);

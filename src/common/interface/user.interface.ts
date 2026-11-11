@@ -1,7 +1,9 @@
-import { GenderEnum, PrivacyEnum, ProviderEnum, RoleEnum } from "../enum/user.enum.js";
+import { AccountStatusEnum, GenderEnum, PrivacyEnum, ProviderEnum, RoleEnum } from "../enum/user.enum.js";
 
 
 export interface IUser {
+  status:AccountStatusEnum;
+  changeStatusAt?:Date;
   firstName: String;
   lastName: String;
   username?:string

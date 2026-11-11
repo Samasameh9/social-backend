@@ -3,6 +3,7 @@ import {
   authentication,
   authorization,
   responseFormatter,
+  uploadMiddleware,
   validation,
 } from "../../middleware";
 import { TokenTypeEnum } from "../../common/enum/security.enum.js";
@@ -10,6 +11,13 @@ import { userService } from "./user.service.js";
 import { getIssuer } from "../../common/utilis/issuer.js";
 import { RoleEnum } from "../../common/enum/user.enum.js";
 import * as validators from "./user.validation";
+import {
+  FileValidation,
+  localFileUpload,
+} from "../../common/utilis/multer/local.multer.js";
+import { StorageApproachEnum } from "../../common/enum/multer.enum.js";
+import { IFile } from "../../common/types/multer.type.js";
+import { IResponse } from "../../common/interface/response.interface.js";
 
 const router = Router({ caseSensitive: true, strict: true });
 // profile
@@ -92,15 +100,35 @@ router.get(
   }),
 );
 //===================================================
+// upload profile image
+router.patch(
+  "/profile-image",
+  authentication(),
+  uploadMiddleware({
+    multerMiddleware: localFileUpload({
+      storageApproach: StorageApproachEnum.MEMORY,
+    }).single("attachment"),
+    validation: FileValidation.image,
+    customPath: "User",
+  }),
+  responseFormatter(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ): Promise<IResponse<Record<string, string>>> => {
+      const key = await userService.profileImage(req.file as IFile, req.user);
+      return { data: { key } };
+    },
+  ),
+);
+//===================================================
 // update privacy
 router.patch(
   "/privacy",
   authentication(),
   responseFormatter(async (req: Request, res: Response, next: NextFunction) => {
-    const data = await userService.updatePrivacy(
-      req.user.id,
-      req.body.privacy
-    );
+    const data = await userService.updatePrivacy(req.user.id, req.body.privacy);
     return { res, data };
   }),
 );

@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./cashe.service.js"), exports);
 __exportStar(require("./token.service.js"), exports);
+__exportStar(require("./cloud.service.js"), exports);

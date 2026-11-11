@@ -38,10 +38,12 @@ router.patch(
 router.patch(
   "/enable-two-step-verification",
   validation(validators.resendConfirmEmailValidation),
-responseFormatter(  async (req: Request, res: Response, next: NextFunction) => {
-    const data = await authenticationService.enableTwoStepVerification(req.validate.body);
-    return ({ res, status: 200, data });
-  },)
+  responseFormatter(async (req: Request, res: Response, next: NextFunction) => {
+    const data = await authenticationService.enableTwoStepVerification(
+      req.validate.body,
+    );
+    return { res, status: 200, data };
+  }),
 );
 //==============================================
 // resend confirm email
@@ -53,7 +55,7 @@ router.patch(
   }),
 );
 //============================================
-//signup with gmail
+//signup with gma0il
 router.post(
   "/signup-with-gmail",
   responseFormatter(
@@ -110,12 +112,12 @@ router.patch(
 router.patch(
   "/verify-two-step-verification",
   validation(validators.confirmEmailValidation),
- responseFormatter( async (req: Request, res: Response, next: NextFunction) => {
+  responseFormatter(async (req: Request, res: Response, next: NextFunction) => {
     const data = await authenticationService.verifyTwoStepVerification(
       req.validate.body,
     );
     return { res, status: 200, data };
-  },)
+  }),
 );
 
 router.patch(

@@ -11,6 +11,7 @@ const connection_db_js_1 = require("./DB/connection.db.js");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)(), express_1.default.json());
+app.use("/assets", express_1.default.static("./assets"));
 (0, connection_db_js_1.bootstrapDB)(app, config_js_1.port);
 app.all("/", async (req, res, next) => {
     return res.status(200).json({ message: "done" });

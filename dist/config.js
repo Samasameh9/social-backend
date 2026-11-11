@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.APP_EMAIL = exports.APP_PASSWORD = exports.WEB_CLIENT_IDS = exports.REFRESH_TOKEN_EXPIREIN = exports.REFRESH_USER_TOKEN_SIGNATURE = exports.REFRESH_ADMIN_TOKEN_SIGNATURE = exports.ACCESS_TOKEN_EXPIREIN = exports.ACCESS_ADMIN_TOKEN_SIGNATURE = exports.ACCESS_USER_TOKEN_SIGNATURE = exports.IV_LENGTH = exports.ENC_KEY = exports.REDIS_URI = exports.DB_URI = exports.port = exports.NODE_ENV = void 0;
+exports.AWS_REGION = exports.AWS_ACCESS_SECRET_KEY = exports.AWS_BUCKET_NAME = exports.APPLICATION_NAME = exports.AWS_ACCESS_KEY_ID = exports.APP_EMAIL = exports.APP_PASSWORD = exports.WEB_CLIENT_IDS = exports.REFRESH_TOKEN_EXPIREIN = exports.REFRESH_USER_TOKEN_SIGNATURE = exports.REFRESH_ADMIN_TOKEN_SIGNATURE = exports.ACCESS_TOKEN_EXPIREIN = exports.ACCESS_ADMIN_TOKEN_SIGNATURE = exports.ACCESS_USER_TOKEN_SIGNATURE = exports.IV_LENGTH = exports.ENC_KEY = exports.REDIS_URI = exports.DB_URI = exports.port = exports.NODE_ENV = void 0;
 const dotenv_1 = require("dotenv");
 exports.NODE_ENV = process.env.NODE_ENV ?? "development";
 (0, dotenv_1.config)({ path: `.env.${exports.NODE_ENV}` });
@@ -18,3 +18,8 @@ exports.REFRESH_TOKEN_EXPIREIN = parseInt(process.env.REFRESH_USER_TOKEN_EXPIREI
 exports.WEB_CLIENT_IDS = process.env.WEB_CLIENT_IDS?.split(",") || [];
 exports.APP_PASSWORD = process.env.APP_PASSWORD;
 exports.APP_EMAIL = process.env.APP_EMAIL;
+exports.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+exports.APPLICATION_NAME = process.env.APPLICATION_NAME;
+exports.AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+exports.AWS_ACCESS_SECRET_KEY = process.env.AWS_ACCESS_SECRET_KEY;
+exports.AWS_REGION = process.env.AWS_REGIONAWS_REGION;

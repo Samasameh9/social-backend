@@ -75,9 +75,9 @@ class AuthenticationService {
             data: {
                 username,
                 email,
-                password: await (0, security_1.hash)({ plaintext: password }),
+                password,
                 gender,
-                phone: await (0, security_1.encryption)(phone),
+                phone,
             },
         });
         await this.sendEmailOtp({ email, subject: email_enum_js_1.EmailSubjectEnum.CONFIRM_EMAIL });

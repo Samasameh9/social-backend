@@ -10,6 +10,8 @@ const app:express.Application=express();
 
 
 app.use(cors(),express.json())
+app.use("/assets", express.static("./assets"));
+
 bootstrapDB(app,port)
 
 app.all("/",async (req:express.Request,res:express.Response,next:express.NextFunction):Promise<express.Response>=>{

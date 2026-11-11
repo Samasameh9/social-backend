@@ -101,9 +101,9 @@ export class AuthenticationService {
       data: {
         username,
         email,
-        password: await hash({ plaintext: password }),
+        password,
         gender,
-        phone: await encryption(phone),
+        phone,
       },
     });
     await this.sendEmailOtp({ email, subject: EmailSubjectEnum.CONFIRM_EMAIL });

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrivacyEnum = exports.ProviderEnum = exports.RoleEnum = exports.GenderEnum = void 0;
+exports.AccountStatusEnum = exports.PrivacyEnum = exports.ProviderEnum = exports.RoleEnum = exports.GenderEnum = void 0;
 var GenderEnum;
 (function (GenderEnum) {
     GenderEnum[GenderEnum["Male"] = 0] = "Male";
@@ -21,3 +21,8 @@ var PrivacyEnum;
     PrivacyEnum[PrivacyEnum["PUBLIC"] = 0] = "PUBLIC";
     PrivacyEnum[PrivacyEnum["PRIVATE"] = 1] = "PRIVATE";
 })(PrivacyEnum || (exports.PrivacyEnum = PrivacyEnum = {}));
+var AccountStatusEnum;
+(function (AccountStatusEnum) {
+    AccountStatusEnum[AccountStatusEnum["ARCHIVE"] = 0] = "ARCHIVE";
+    AccountStatusEnum[AccountStatusEnum["ACTIVE"] = 1] = "ACTIVE";
+})(AccountStatusEnum || (exports.AccountStatusEnum = AccountStatusEnum = {}));

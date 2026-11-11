@@ -1,3 +1,7 @@
+import {
+  CloudService,
+  cloudService,
+} from "./../../common/service/cloud.service";
 import { LogoutEnum } from "../../common/enum/security.enum.js";
 import { PrivacyEnum } from "../../common/enum/user.enum.js";
 import {
@@ -20,16 +24,19 @@ import { toObjectId } from "../../common/utilis/objectId.js";
 import { ACCESS_TOKEN_EXPIREIN } from "../../config.js";
 import { HUser } from "../../DB/model/user.model.js";
 import { ILoginResponse } from "../authentication/entities/authentication.entity.js";
+import { IFile } from "../../common/types/multer.type.js";
 
 export class UserService {
-  private userRepository: UserRepository;
-  private cachService: CachService;
-  private tokenService: TokenService;
+  private readonly userRepository: UserRepository;
+  private readonly cachService: CachService;
+  private readonly tokenService: TokenService;
+  private readonly cloudService: CloudService;
 
   constructor() {
     this.cachService = cachService;
     this.userRepository = new UserRepository();
     this.tokenService = tokenService;
+    this.cloudService = cloudService;
   }
   // rotate token
   async rotateToken(
@@ -57,6 +64,16 @@ export class UserService {
       key: this.tokenService.userBaseKey({ userId }),
     });
   }
+  //====================================
+  // profile image
+  async profileImage(file: IFile, user: HUser): Promise<string> {
+    const key = await this.cloudService.uploadAssets({
+      file,
+      folder: `${user._id.toString()}`,
+    });
+    return key;
+  }
+  //===================================
   // profile
   async profile(account: HUser): Promise<HUser> {
     const cachedProfile = await this.cachService.get({
@@ -185,12 +202,12 @@ export class UserService {
   //==================================================
   // privacy
   async updatePrivacy(userId: string, privacy: PrivacyEnum) {
-   await this.userRepository.updateOne({
-    filter: { _id: toObjectId(userId) },
-    update: { privacy },
-  });
-  return
-}
+    await this.userRepository.updateOne({
+      filter: { _id: toObjectId(userId) },
+      update: { privacy },
+    });
+    return;
+  }
   //==================================================
   // logout
   async logout(

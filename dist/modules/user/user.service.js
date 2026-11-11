@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = exports.UserService = void 0;
+const cloud_service_1 = require("./../../common/service/cloud.service");
 const security_enum_js_1 = require("../../common/enum/security.enum.js");
 const domain_exception_js_1 = require("../../common/exception/domain.exception.js");
 const user_repository_js_1 = require("../../common/repository/user.repository.js");
@@ -12,10 +13,12 @@ class UserService {
     userRepository;
     cachService;
     tokenService;
+    cloudService;
     constructor() {
         this.cachService = cashe_service_js_1.cachService;
         this.userRepository = new user_repository_js_1.UserRepository();
         this.tokenService = token_service_js_1.tokenService;
+        this.cloudService = cloud_service_1.cloudService;
     }
     async rotateToken(payload, user, issuer) {
         const accessExpiresIn = (payload.iat + config_js_1.ACCESS_TOKEN_EXPIREIN) * 1000;
@@ -34,6 +37,13 @@ class UserService {
         return await this.cachService.del({
             key: this.tokenService.userBaseKey({ userId }),
         });
+    }
+    async profileImage(file, user) {
+        const key = await this.cloudService.uploadAssets({
+            file,
+            folder: `${user._id.toString()}`,
+        });
+        return key;
     }
     async profile(account) {
         const cachedProfile = await this.cachService.get({
