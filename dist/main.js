@@ -18,4 +18,6 @@ app.all("/", async (req, res, next) => {
 });
 app.use("/auth", index_1.authenticationController);
 app.use("/user", index_1.userController);
+app.use("/post", index_1.postController);
+app.use("/comment", index_1.commentController);
 app.use(error_middleware_js_1.globalErrorHandling);

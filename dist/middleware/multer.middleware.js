@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadMiddleware = void 0;
 const local_multer_js_1 = require("../common/utilis/multer/local.multer.js");
-const uploadMiddleware = ({ isRequired = true, multerMiddleware, validation = [], customPath = "general", }) => {
+const uploadMiddleware = ({ isRequired = false, multerMiddleware, validation = [], customPath = "general", }) => {
     return (req, res, next) => {
         multerMiddleware(req, res, async (error) => {
             if (error) {

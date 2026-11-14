@@ -59,14 +59,14 @@ export const generalValidationFileds = {
       },
       { message: "invalid format" },
     ),
-  file: (lang:LanguageEnum) =>
-    z.strictObject({
-      fieldname: z.string(),
-      originalname: z.string(),
-      encoding: z.string(),
-      mimetype: z.string(),
-      buffer: z.instanceof(Buffer),
-      size: z.number(),
-      path: z.string(),
-    }),
+  file: (lang: LanguageEnum) =>
+  z.strictObject({
+    fieldname: z.string(),
+    originalname: z.string(),
+    encoding: z.string(),
+    mimetype: z.string(),
+    buffer: z.instanceof(Buffer),
+    size: z.number(),
+    path: z.string(),
+  }),
 };

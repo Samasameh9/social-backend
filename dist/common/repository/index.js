@@ -15,3 +15,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./user.repository.js"), exports);
+__exportStar(require("./post.repository.js"), exports);
+__exportStar(require("./comment.repository.js"), exports);

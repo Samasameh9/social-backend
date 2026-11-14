@@ -3,7 +3,7 @@ import { processMulterUpload } from "../common/utilis/multer/local.multer.js";
 
 
 export const uploadMiddleware = ({
-  isRequired = true,
+  isRequired = false,
   multerMiddleware,
   validation = [],
   customPath = "general",
@@ -29,6 +29,8 @@ export const uploadMiddleware = ({
           return;
         }
         await processMulterUpload({ customPath, req, validation });
+      
+
         next();
       } catch (error:any) {
         next(new Error(error.message, { cause: { status: 400 } }));

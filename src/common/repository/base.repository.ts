@@ -174,7 +174,7 @@ export abstract class DatabaseRepository<TRowDocument> {
     options,
     projection,
   }: {
-    filter: QueryFilter<TRowDocument>;
+    filter?: QueryFilter<TRowDocument>;
     options?: QueryOptions<TRowDocument> | null | undefined;
     projection?: ProjectionType<TRowDocument> | null | undefined;
   }): Promise<HydratedDocument<TRowDocument>[]> {

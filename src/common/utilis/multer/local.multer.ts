@@ -55,10 +55,13 @@ export const processFile = async ({
   }
   const result = await fileTypeFromBuffer(file.buffer);
   if (!result || !validation.includes(result.mime)) {
-    await unlink(file.path);
-    throw new BadRequestException(`Invalid file format: ${file.originalname}`);
+    if (file.path) {
+      await unlink(file.path);
+    }
+ throw new BadRequestException(
+      `Invalid file format: ${file.originalname}`,
+    );
   }
-
   return {
     file,
     result,
@@ -75,13 +78,14 @@ export const saveFile = async ({
   file: Express.Multer.File;
   result: SaveFileResult;
 }) => {
-  // await mkdir(resolve(`assets/${customPath}`), { recursive: true });
-  // const uniqueFilePath = `assets/${customPath}/${randomUUID()}.${result.ext}`;
-  // await writeFile(resolve(`./${uniqueFilePath}`), file.buffer);
+
   if (file.path) {
     await unlink(file.path);
   }
-  // file.path = uniqueFilePath;
+    await mkdir(resolve(`assets/${customPath}`), { recursive: true });
+  const uniqueFilePath = `assets/${customPath}/${randomUUID()}.${result.ext}`;
+  await writeFile(resolve(`./${uniqueFilePath}`), file.buffer);
+  file.path = uniqueFilePath;
 
   return file;
 };
@@ -199,4 +203,5 @@ export const processMulterUpload = async ({
       validation,
     });
   }
+  console.log("AFTER:", req.files);
 };

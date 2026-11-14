@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processMulterUpload = exports.processFields = exports.processFiles = exports.saveFile = exports.processFile = exports.localFileUpload = exports.FileValidation = void 0;
 const multer_1 = __importDefault(require("multer"));
 const node_crypto_1 = require("node:crypto");
+const node_path_1 = require("node:path");
 const promises_1 = require("node:fs/promises");
 const file_type_1 = require("file-type");
 const domain_exception_js_1 = require("../../exception/domain.exception.js");
@@ -40,7 +41,9 @@ const processFile = async ({ file, validation = [], }) => {
     }
     const result = await (0, file_type_1.fileTypeFromBuffer)(file.buffer);
     if (!result || !validation.includes(result.mime)) {
-        await (0, promises_1.unlink)(file.path);
+        if (file.path) {
+            await (0, promises_1.unlink)(file.path);
+        }
         throw new domain_exception_js_1.BadRequestException(`Invalid file format: ${file.originalname}`);
     }
     return {
@@ -53,6 +56,10 @@ const saveFile = async ({ customPath = "general", file, result, }) => {
     if (file.path) {
         await (0, promises_1.unlink)(file.path);
     }
+    await (0, promises_1.mkdir)((0, node_path_1.resolve)(`assets/${customPath}`), { recursive: true });
+    const uniqueFilePath = `assets/${customPath}/${(0, node_crypto_1.randomUUID)()}.${result.ext}`;
+    await (0, promises_1.writeFile)((0, node_path_1.resolve)(`./${uniqueFilePath}`), file.buffer);
+    file.path = uniqueFilePath;
     return file;
 };
 exports.saveFile = saveFile;
@@ -128,5 +135,6 @@ const processMulterUpload = async ({ customPath, req, validation = [], }) => {
             validation,
         });
     }
+    console.log("AFTER:", req.files);
 };
 exports.processMulterUpload = processMulterUpload;

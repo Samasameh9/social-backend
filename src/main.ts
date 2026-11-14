@@ -1,9 +1,10 @@
 import  express  from "express";
-import { authenticationController, userController } from "./modules/index";
+import { authenticationController, userController,postController, commentController } from "./modules/index";
 import { globalErrorHandling } from "./middleware/error.middleware.js";
 import { port } from "./config.js";
 import { bootstrapDB } from "./DB/connection.db.js";
 import cors from "cors";
+
 
 
 const app:express.Application=express();
@@ -21,6 +22,10 @@ return res.status(200).json({message:"done"})
 
 app.use("/auth",authenticationController)
 app.use("/user",userController)
+app.use("/post",postController)
+app.use("/comment",commentController)
+
+
 
 app.use(globalErrorHandling)
 
