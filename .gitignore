@@ -1,0 +1,4 @@
+node_modules
+.env.development
+.env.production
+src/config/socialapp00-firebase-adminsdk-fbsvc-35387d08dc.json
